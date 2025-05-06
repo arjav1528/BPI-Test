@@ -5,7 +5,6 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-// Setup WebBrowser for authentication
 export const useWarmUpBrowser = () => {
   useEffect(() => {
     void WebBrowser.warmUpAsync();
@@ -32,7 +31,6 @@ const LoginScreen = () => {
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const spinnerFadeAnim = useRef(new Animated.Value(0)).current;
 
-  // Handle animation when loading state changes
   useEffect(() => {
     if (isGoogleLoading) {
       Animated.parallel([
@@ -63,7 +61,6 @@ const LoginScreen = () => {
     }
   }, [isGoogleLoading]);
 
-  // Google sign in handler
   const handleGoogleSignIn = useCallback(async () => {
     try {
       setGeneralError('');
@@ -101,7 +98,6 @@ const LoginScreen = () => {
     }
   }, [startSSOFlow, setActive, router]);
 
-  // Redirects if already signed in
   useEffect(() => {
     if (isAuthLoaded && isUserLoaded && isSignedIn) {
       router.replace('/');

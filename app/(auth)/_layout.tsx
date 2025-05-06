@@ -13,7 +13,6 @@ const SplashScreen = () => {
     );
   };
   
-  // Styles for the splash screen
   const styles = StyleSheet.create({
     container: {
       flex: 1,

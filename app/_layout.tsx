@@ -4,7 +4,6 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
-// Simple splash screen component
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
@@ -15,7 +14,6 @@ const SplashScreen = () => {
   );
 };
 
-// Styles for the splash screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,8 +45,7 @@ export default function RootLayout() {
     }
 
     useEffect(() => {
-        // Simulate initialization delay - this is the ONLY place in the app 
-        // where we should show the splash screen during initial load
+        
         const timer = setTimeout(() => {
           setIsInitialized(true)
         }, 1500)
