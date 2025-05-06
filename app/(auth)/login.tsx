@@ -20,7 +20,7 @@ const LoginScreen = () => {
   useWarmUpBrowser();
   
   const { startSSOFlow } = useSSO();
-  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
+  const { isSignedIn, isLoaded: isAuthLoaded, getToken } = useAuth();
   const { user, isLoaded: isUserLoaded } = useUser();
   const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
@@ -74,7 +74,17 @@ const LoginScreen = () => {
       if (createdSessionId) {
         if (setActive) {
           await setActive({ session: createdSessionId });
-          router.replace('/');
+          
+          try {
+            console.log("Getting token...");
+            const token = await getToken();
+            console.log(token);
+            
+            router.replace('/');
+          } catch (tokenError) {
+            console.error("Token error:", tokenError);
+            setGeneralError('Authentication error. Please try again.');
+          }
         } else {
           setGeneralError('Session activation failed. Please try again.');
         }
@@ -82,7 +92,7 @@ const LoginScreen = () => {
         setGeneralError('Sign in process was not completed.');
       }
     } catch (err : any) {
-      console.error('Error during OAuth:', JSON.stringify(err, null, 2));
+      console.error('Error during OAuth:', err.toString());
       
       if (err?.message?.includes('cancelled') || err?.message?.includes('dismiss')) {
         setGeneralError('Sign in was cancelled.');
@@ -96,7 +106,7 @@ const LoginScreen = () => {
     } finally {
       setIsGoogleLoading(false);
     }
-  }, [startSSOFlow, setActive, router]);
+  }, [startSSOFlow, setActive, router, getToken]);
 
   useEffect(() => {
     if (isAuthLoaded && isUserLoaded && isSignedIn) {
