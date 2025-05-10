@@ -1,8 +1,8 @@
 const paymentapi = process.env.EXPO_PUBLIC_PAYMENT_API;
+import * as Application from 'expo-application';
+import * as Device from 'expo-device';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
-import * as Device from 'expo-device';
-import * as Application from 'expo-application';
 
 if (!paymentapi) {
   throw new Error("Missing EXPO_PUBLIC_PAYMENT_API");
@@ -10,7 +10,7 @@ if (!paymentapi) {
 
 export const auth = async (token: string) => {
     try{
-        const response = await fetch(`${paymentapi}/auth`, {
+        const response = await fetch(`${paymentapi}/login/student`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

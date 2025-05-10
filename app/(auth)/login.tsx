@@ -1,3 +1,4 @@
+import { auth } from '@/utils/payments';
 import { useAuth, useSSO, useSignIn, useUser } from '@clerk/clerk-expo';
 import * as AuthSession from 'expo-auth-session';
 import { useRouter } from 'expo-router';
@@ -78,7 +79,12 @@ const LoginScreen = () => {
           try {
             console.log("Getting token...");
             const token = await getToken();
+
             console.log(token);
+
+            const userType = await auth(token || "");
+
+            console.log(userType);
             
             router.replace('/');
           } catch (tokenError) {
